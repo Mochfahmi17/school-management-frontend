@@ -2,18 +2,21 @@
 import { loginSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import z from "zod";
 
 const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const {
     register,
     handleSubmit,
+    resetField,
     formState: { errors },
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -42,6 +45,7 @@ const LoginForm = () => {
 
         if (!res.ok) {
           toast.error(data.message);
+          resetField("password");
           return;
         }
 
@@ -76,7 +80,7 @@ const LoginForm = () => {
               {...register("email")}
               disabled={isPending}
               placeholder="Enter your email"
-              className="border border-gray-300 disabled:opacity-50 disabled:cursor-default rounded-md shadow-sm text-sm py-2.5 text-gray-800 px-3 focus:ring-gray-800 focus:outline-gray-800 focus:outline-2 outline-0"
+              className="border border-gray-300 w-full disabled:opacity-50 disabled:cursor-default rounded-md shadow-sm text-sm py-2.5 text-gray-800 px-3 focus:ring-gray-800 focus:outline-gray-800 focus:outline-2 outline-0"
             />
             {errors.email && (
               <p className="text-sm text-red-500">{errors.email.message}</p>
@@ -89,14 +93,25 @@ const LoginForm = () => {
             >
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              {...register("password")}
-              disabled={isPending}
-              placeholder="Enter your password"
-              className="border border-gray-300 disabled:opacity-50 disabled:cursor-default rounded-md shadow-sm text-gray-800 text-sm py-2 px-3 focus:ring-gray-800 focus:outline-gray-800 focus:outline-2 outline-0"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                {...register("password")}
+                disabled={isPending}
+                placeholder="Enter your password"
+                className="border border-gray-300 w-full disabled:opacity-50 disabled:cursor-default rounded-md shadow-sm text-gray-800 text-sm py-2 px-3 focus:ring-gray-800 focus:outline-gray-800 focus:outline-2 outline-0"
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                title={showPassword ? "hide password" : "show password"}
+                className="absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer p-2"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
             {errors.password && (
               <p className="text-sm text-red-500">{errors.password.message}</p>
             )}

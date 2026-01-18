@@ -1,6 +1,13 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(req: NextRequest) {}
+export function proxy(req: NextRequest) {
+  const token = req.cookies.has("token");
+  const protectedRoute = ["/dashboard"];
+
+  if (!token && protectedRoute.includes(req.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
+}
 
 export const config = {
   matcher: [
