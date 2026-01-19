@@ -50,7 +50,6 @@ const LoginForm = () => {
         }
 
         toast.success(data.message);
-        router.push("/");
       } catch (error) {
         console.log(error);
         toast.error("Something went wrong!");
