@@ -16,18 +16,6 @@ function getUserRole(token?: string): string | null {
   }
 }
 
-function redirectByRole(req: NextRequest, role?: string) {
-  if (role === "ADMIN") {
-    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
-  }
-
-  if (role === "TEACHER") {
-    return NextResponse.redirect(new URL("/teacher/dashboard", req.url));
-  }
-
-  return NextResponse.redirect(new URL("/login", req.url));
-}
-
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("token")?.value;
@@ -38,16 +26,44 @@ export function proxy(req: NextRequest) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    return redirectByRole(req, role);
+    return NextResponse.redirect(
+      new URL(
+        role === "ADMIN" ? "/admin/dashboard" : "/teacher/dashboard",
+        req.url,
+      ),
+    );
   }
 
   if (pathname === "/login") {
-    if (!role) {
+    if (role) {
+      return NextResponse.redirect(
+        new URL(
+          role === "ADMIN" ? "/admin/dashboard" : "/teacher/dashboard",
+          req.url,
+        ),
+      );
+    }
+
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith("/admin")) {
+    if (role !== "ADMIN") {
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    return redirectByRole(req, role);
+    return NextResponse.next();
   }
+
+  if (pathname.startsWith("/teacher")) {
+    if (role !== "TEACHER") {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+    return NextResponse.next();
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

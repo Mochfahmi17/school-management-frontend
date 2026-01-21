@@ -7,8 +7,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import z from "zod";
+import { useAuthStore } from "@/stores/auth";
 
 const LoginForm = () => {
+  const { user } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -50,6 +52,7 @@ const LoginForm = () => {
         }
 
         toast.success(data.message);
+        router.push(user ? `/${user.role.toLowerCase()}/dashboard` : "/login");
       } catch (error) {
         console.log(error);
         toast.error("Something went wrong!");
