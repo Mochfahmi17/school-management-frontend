@@ -16,7 +16,7 @@ const MENUS = [
   },
   {
     label: "Guru",
-    href: "/admin/teacher",
+    href: "/admin/teachers",
     icon: <FaChalkboardTeacher className="size-6" />,
   },
   {
@@ -41,7 +41,7 @@ const Sidebar = () => {
   const pathname = usePathname();
   return (
     <aside className="h-screen bg-indigo-800 w-64 shadow-lg text-white">
-      <div className="p-6 border-b border-indigo-700">
+      <div className="px-6 py-4 border-b border-indigo-700">
         <h1 className="text-xl font-bold flex items-center gap-2">
           <FaGraduationCap className="size-8" /> School System
         </h1>
