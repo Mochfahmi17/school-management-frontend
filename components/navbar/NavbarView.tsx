@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useAuthStore } from "@/stores/auth";
-import Image from "next/image";
 import { IoSearchOutline } from "react-icons/io5";
 
 const NavbarView = () => {
@@ -40,7 +39,10 @@ const NavbarView = () => {
             </div>
           </div>
         ) : (
-          <p className="text-sm">Loading...</p>
+          <div className="flex items-center gap-2">
+            <div className="border-2 border-gray-800 border-t-transparent animate-spin size-5 rounded-full"></div>
+            <p className="text-sm">Loading</p>
+          </div>
         )}
       </div>
     </header>

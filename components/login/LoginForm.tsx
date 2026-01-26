@@ -10,7 +10,7 @@ import z from "zod";
 import { useAuthStore } from "@/stores/auth";
 
 const LoginForm = () => {
-  const { user } = useAuthStore();
+  const { user, fetchCurrentUser } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -51,6 +51,7 @@ const LoginForm = () => {
           return;
         }
 
+        await fetchCurrentUser();
         toast.success(data.message);
         router.push(user ? `/${user.role.toLowerCase()}/dashboard` : "/login");
       } catch (error) {
