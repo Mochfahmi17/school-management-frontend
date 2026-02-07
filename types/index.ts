@@ -36,6 +36,11 @@ export interface UserTeacherResponse {
   message?: string;
 }
 
+export interface SingleUserTeacherResponse {
+  teacher: UserTeacher;
+  message?: string;
+}
+
 export interface SubjectResponse {
   data: Subject[];
   message?: string;

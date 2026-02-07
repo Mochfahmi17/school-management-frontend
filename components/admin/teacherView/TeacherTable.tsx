@@ -91,6 +91,7 @@ const TeacherTable = ({ teachers, isLoading }: TeacherTableProps) => {
                   <div className="flex items-center">
                     <Link
                       href={`teachers/edit/${teacher.id}`}
+                      title="Edit"
                       className="flex size-8 cursor-pointer items-center justify-center rounded-full text-blue-600 hover:text-blue-500"
                     >
                       <BsPencilSquare />
