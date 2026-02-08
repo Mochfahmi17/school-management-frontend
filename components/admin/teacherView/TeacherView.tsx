@@ -3,9 +3,9 @@ import Link from "next/link";
 import TeacherTable from "./TeacherTable";
 import Pagination from "@/components/Pagination";
 import useSWR from "swr";
-import { UserTeacherResponse } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 import { useSearchParams } from "next/navigation";
+import { TeacherResponse } from "@/types";
 
 const TeacherView = () => {
   const params = useSearchParams();
@@ -17,7 +17,7 @@ const TeacherView = () => {
     page: page.toString(),
     limit: limit.toString(),
   });
-  const { data: response, isLoading } = useSWR<UserTeacherResponse>(
+  const { data: response, isLoading } = useSWR<TeacherResponse>(
     `${process.env.NEXT_PUBLIC_API_URL}/teacher?${query}`,
     fetcher,
   );

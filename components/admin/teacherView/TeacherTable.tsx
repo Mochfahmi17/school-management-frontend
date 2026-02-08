@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import { UserTeacher } from "@/types";
+import LoadingCircle from "@/components/LoadingCircle";
+import { DataTeacher } from "@/types";
 import Link from "next/link";
 import { BsPencilSquare } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 
 type TeacherTableProps = {
-  teachers: UserTeacher[];
+  teachers: DataTeacher[];
   isLoading: boolean;
 };
 
@@ -51,7 +52,7 @@ const TeacherTable = ({ teachers, isLoading }: TeacherTableProps) => {
                 className="p-4 text-center font-medium whitespace-nowrap text-gray-800 dark:text-white"
               >
                 <div className="flex items-center justify-center gap-2">
-                  <div className="size-5 animate-spin rounded-full border-2 border-gray-800 border-t-transparent"></div>
+                  <LoadingCircle className="size-5 border-gray-800" />
                   Memuat data
                 </div>
               </td>
@@ -63,29 +64,29 @@ const TeacherTable = ({ teachers, isLoading }: TeacherTableProps) => {
                 className="border-b border-gray-200 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700"
               >
                 <td className="p-4 font-medium whitespace-nowrap text-gray-800 dark:text-white">
-                  {teacher.teacher ? teacher.teacher.nip : "-"}
+                  {teacher.nip}
                 </td>
                 <td className="flex items-center gap-2 p-4 font-medium whitespace-nowrap text-gray-800 dark:text-white">
                   <div className="h-8 w-8 overflow-hidden rounded-full bg-gray-200">
                     <img
-                      src={getAvatar(teacher.name.split(",")[0])}
-                      alt={teacher.name}
+                      src={getAvatar(teacher.user.name.split(",")[0])}
+                      alt={teacher.user.name}
                       className="h-full w-full"
                     />
                   </div>
-                  {teacher.name}
+                  {teacher.user.name}
                 </td>
                 <td className="p-4 whitespace-nowrap text-gray-600 dark:text-white">
-                  {teacher.email}
+                  {teacher.user.email}
                 </td>
                 <td className="p-4 whitespace-nowrap text-gray-600 dark:text-white">
-                  {teacher.teacher ? teacher.teacher.phone : "-"}
+                  {teacher.phone}
                 </td>
                 <td className="p-4 whitespace-nowrap text-gray-600 dark:text-white">
                   X AKL 1
                 </td>
                 <td className="p-4 whitespace-nowrap text-gray-600 dark:text-white">
-                  {teacher.teacher ? teacher.teacher.subjects.name : "-"}
+                  {teacher.subjects.name}
                 </td>
                 <td className="p-4 font-medium whitespace-nowrap text-gray-800 dark:text-white">
                   <div className="flex items-center">

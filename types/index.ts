@@ -13,10 +13,11 @@ export interface DataTeacher {
   subjectId: string;
   createdAt: Date;
   updatedAt: Date;
-  subjects: Subject;
+  user: { name: string; email: string; role: string };
+  subjects: { name: string };
 }
 
-export interface UserTeacher {
+export interface User {
   id: string;
   name: string;
   email: string;
@@ -27,17 +28,17 @@ export interface UserTeacher {
   updatedAt: Date;
 }
 
-export interface UserTeacherResponse {
+export interface TeacherResponse {
   page: number;
   limit: number;
   total: number;
   totalPages: number;
-  data: UserTeacher[];
+  data: DataTeacher[];
   message?: string;
 }
 
 export interface SingleUserTeacherResponse {
-  teacher: UserTeacher;
+  teacher: DataTeacher;
   message?: string;
 }
 

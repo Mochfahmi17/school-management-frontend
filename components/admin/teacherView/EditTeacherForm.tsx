@@ -1,7 +1,8 @@
 "use client";
+import LoadingCircle from "@/components/LoadingCircle";
 import { fetcher } from "@/lib/fetcher";
 import { editTeacherSchema } from "@/schemas";
-import { SubjectResponse, UserTeacher } from "@/types";
+import { DataTeacher, SubjectResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -11,7 +12,7 @@ import useSWR from "swr";
 import z from "zod";
 
 type EditTeacherFormProps = {
-  initialData: UserTeacher;
+  initialData: DataTeacher;
 };
 
 const EditTeacherForm = ({ initialData }: EditTeacherFormProps) => {
@@ -32,11 +33,11 @@ const EditTeacherForm = ({ initialData }: EditTeacherFormProps) => {
   } = useForm<z.infer<typeof editTeacherSchema>>({
     resolver: zodResolver(editTeacherSchema),
     defaultValues: {
-      name: initialData.name,
-      email: initialData.email,
-      nip: initialData.teacher?.nip,
-      phone: initialData.teacher?.phone,
-      subjectId: initialData.teacher?.subjectId,
+      name: initialData.user.name,
+      email: initialData.user.email,
+      nip: initialData.nip,
+      phone: initialData.phone,
+      subjectId: initialData.subjectId,
     },
   });
 
@@ -158,13 +159,13 @@ const EditTeacherForm = ({ initialData }: EditTeacherFormProps) => {
         </div>
         <div className="grid gap-1">
           <label
-            htmlFor="subject"
+            htmlFor="subjectId"
             className="w-fit text-sm font-medium text-gray-800"
           >
             Mata Pelajaran <span className="text-red-500">*</span>
           </label>
           <select
-            id="subject"
+            id="subjectId"
             disabled={isPending}
             {...register("subjectId")}
             className="w-full cursor-pointer rounded-lg border border-gray-300 px-4 py-2 transition outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
@@ -172,7 +173,6 @@ const EditTeacherForm = ({ initialData }: EditTeacherFormProps) => {
             <option value="">Pilih Mata Pelajaran</option>
             {subjects.length === 0 && isLoading ? (
               <option
-                value=""
                 disabled
                 className="flex items-center justify-center gap-2"
               >
@@ -199,15 +199,22 @@ const EditTeacherForm = ({ initialData }: EditTeacherFormProps) => {
         <button
           type="submit"
           disabled={isPending}
-          className="flex-1 cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white transition duration-300 hover:bg-blue-700 disabled:opacity-50"
+          className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white transition duration-300 hover:bg-blue-700 disabled:cursor-default disabled:opacity-50"
         >
-          Edit
+          {isPending ? (
+            <>
+              <LoadingCircle className="size-5 border-white" />{" "}
+              <span>Loading...</span>
+            </>
+          ) : (
+            "Edit"
+          )}
         </button>
         <button
           type="button"
           onClick={() => router.push("/admin/teachers")}
           disabled={isPending}
-          className="flex-1 cursor-pointer rounded-lg bg-gray-200 px-4 py-2.5 font-medium text-gray-700 transition duration-300 hover:bg-gray-300 disabled:opacity-50"
+          className="flex-1 cursor-pointer rounded-lg bg-gray-200 px-4 py-2.5 font-medium text-gray-700 transition duration-300 hover:bg-gray-300 disabled:cursor-default disabled:opacity-50"
         >
           Batal
         </button>
