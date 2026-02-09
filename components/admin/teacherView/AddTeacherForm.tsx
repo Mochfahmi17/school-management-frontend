@@ -1,4 +1,5 @@
 "use client";
+import LoadingCircle from "@/components/LoadingCircle";
 import { fetcher } from "@/lib/fetcher";
 import { addTeacherSchema } from "@/schemas";
 import { SubjectResponse } from "@/types";
@@ -192,9 +193,15 @@ const AddTeacherForm = () => {
         <button
           type="submit"
           disabled={isPending}
-          className="flex-1 cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white transition duration-300 hover:bg-blue-700 disabled:opacity-50"
+          className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white transition duration-300 hover:bg-blue-700 disabled:cursor-default disabled:opacity-50"
         >
-          Simpan
+          {isPending ? (
+            <>
+              <LoadingCircle className="size-5 border-white" /> Loading...
+            </>
+          ) : (
+            "Simpan"
+          )}
         </button>
         <button
           type="button"

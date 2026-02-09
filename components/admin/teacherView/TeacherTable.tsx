@@ -3,14 +3,25 @@ import LoadingCircle from "@/components/LoadingCircle";
 import { DataTeacher } from "@/types";
 import Link from "next/link";
 import { BsPencilSquare } from "react-icons/bs";
-import { FaTrash } from "react-icons/fa";
+import DeleteTeacherButton from "./DeleteTeacherButton";
+import { LuArrowDownUp, LuArrowUp, LuArrowDown } from "react-icons/lu";
+import { SetStateAction } from "react";
 
 type TeacherTableProps = {
   teachers: DataTeacher[];
   isLoading: boolean;
+  mutate: () => void;
+  sort: { sortBy: string; order: string };
+  setSort: React.Dispatch<SetStateAction<{ sortBy: string; order: string }>>;
 };
 
-const TeacherTable = ({ teachers, isLoading }: TeacherTableProps) => {
+const TeacherTable = ({
+  teachers,
+  isLoading,
+  mutate,
+  sort,
+  setSort,
+}: TeacherTableProps) => {
   const getAvatar = (name: string) => {
     const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=a232a8&color=fff`;
 
@@ -24,11 +35,51 @@ const TeacherTable = ({ teachers, isLoading }: TeacherTableProps) => {
             <th scope="col" className="px-4 py-3">
               NIP
             </th>
-            <th scope="col" className="px-4 py-3">
-              Nama
+            <th
+              scope="col"
+              onClick={() =>
+                setSort({
+                  sortBy: "name",
+                  order: sort.order === "asc" ? "desc" : "asc",
+                })
+              }
+              className="cursor-pointer px-4 py-3"
+            >
+              <div className="flex items-center gap-2">
+                Nama{" "}
+                {sort.sortBy === "name" ? (
+                  sort.order === "asc" ? (
+                    <LuArrowUp />
+                  ) : (
+                    <LuArrowDown />
+                  )
+                ) : (
+                  <LuArrowDownUp />
+                )}
+              </div>
             </th>
-            <th scope="col" className="px-4 py-3">
-              Email
+            <th
+              scope="col"
+              onClick={() =>
+                setSort({
+                  sortBy: "email",
+                  order: sort.order === "asc" ? "desc" : "asc",
+                })
+              }
+              className="cursor-pointer px-4 py-3"
+            >
+              <div className="flex items-center gap-2">
+                Email{" "}
+                {sort.sortBy === "email" ? (
+                  sort.order === "asc" ? (
+                    <LuArrowUp />
+                  ) : (
+                    <LuArrowDown />
+                  )
+                ) : (
+                  <LuArrowDownUp />
+                )}
+              </div>
             </th>
             <th scope="col" className="px-4 py-3">
               Phone
@@ -36,8 +87,28 @@ const TeacherTable = ({ teachers, isLoading }: TeacherTableProps) => {
             <th scope="col" className="px-4 py-3">
               Wali Kelas
             </th>
-            <th scope="col" className="px-4 py-3">
-              Bidang Guru
+            <th
+              scope="col"
+              onClick={() =>
+                setSort({
+                  sortBy: "subject",
+                  order: sort.order === "asc" ? "desc" : "asc",
+                })
+              }
+              className="cursor-pointer px-4 py-3"
+            >
+              <div className="flex items-center gap-2">
+                Bidang Guru{" "}
+                {sort.sortBy === "subject" ? (
+                  sort.order === "asc" ? (
+                    <LuArrowUp />
+                  ) : (
+                    <LuArrowDown />
+                  )
+                ) : (
+                  <LuArrowDownUp />
+                )}
+              </div>
             </th>
             <th scope="col" className="px-4 py-3">
               Aksi
@@ -98,12 +169,7 @@ const TeacherTable = ({ teachers, isLoading }: TeacherTableProps) => {
                       <BsPencilSquare />
                     </Link>
                     <span className="h-6 w-px bg-gray-200"></span>
-                    <button
-                      type="button"
-                      className="flex size-8 cursor-pointer items-center justify-center rounded-full text-red-600 hover:text-red-500"
-                    >
-                      <FaTrash />
-                    </button>
+                    <DeleteTeacherButton id={teacher.id} mutateData={mutate} />
                   </div>
                 </td>
               </tr>

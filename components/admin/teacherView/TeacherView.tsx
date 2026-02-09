@@ -6,8 +6,10 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
 import { useSearchParams } from "next/navigation";
 import { TeacherResponse } from "@/types";
+import { useState } from "react";
 
 const TeacherView = () => {
+  const [sort, setSort] = useState({ sortBy: "createdAt", order: "asc" });
   const params = useSearchParams();
 
   const page = parseInt(params.get("page") || "1");
@@ -16,8 +18,13 @@ const TeacherView = () => {
   const query = new URLSearchParams({
     page: page.toString(),
     limit: limit.toString(),
+    ...sort,
   });
-  const { data: response, isLoading } = useSWR<TeacherResponse>(
+  const {
+    data: response,
+    isLoading,
+    mutate,
+  } = useSWR<TeacherResponse>(
     `${process.env.NEXT_PUBLIC_API_URL}/teacher?${query}`,
     fetcher,
   );
@@ -33,7 +40,13 @@ const TeacherView = () => {
           Tambah Guru
         </Link>
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800">
-          <TeacherTable teachers={teachers} isLoading={isLoading} />
+          <TeacherTable
+            teachers={teachers}
+            isLoading={isLoading}
+            sort={sort}
+            setSort={setSort}
+            mutate={mutate}
+          />
           <Pagination
             currentPage={response ? response.page : 1}
             totalPages={response ? response.totalPages : 1}
