@@ -66,14 +66,15 @@ const Pagination = ({
       className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between"
     >
       <p className="text-sm text-gray-500 dark:text-gray-400">
-        Showing{" "}
+        Menampilkan{" "}
         <span className="font-semibold text-gray-900 dark:text-white">
-          {startIndex} – {endIndex}
+          {startIndex} - {endIndex}
         </span>{" "}
-        of{" "}
+        dari{" "}
         <span className="font-semibold text-gray-900 dark:text-white">
           {totalData}
-        </span>
+        </span>{" "}
+        hasil
       </p>
 
       <ul className="inline-flex items-stretch -space-x-px">

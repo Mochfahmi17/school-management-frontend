@@ -27,6 +27,22 @@ const TeacherTable = ({
 
     return avatarUrl;
   };
+
+  const handleSort = (field: string) => {
+    setSort((prev) => {
+      if (prev.sortBy === field) {
+        return {
+          sortBy: field,
+          order: prev.order === "desc" ? "asc" : "desc",
+        };
+      }
+
+      return {
+        sortBy: field,
+        order: "desc",
+      };
+    });
+  };
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
@@ -37,12 +53,7 @@ const TeacherTable = ({
             </th>
             <th
               scope="col"
-              onClick={() =>
-                setSort({
-                  sortBy: "name",
-                  order: sort.order === "asc" ? "desc" : "asc",
-                })
-              }
+              onClick={() => handleSort("name")}
               className="cursor-pointer px-4 py-3"
             >
               <div className="flex items-center gap-2">
@@ -60,12 +71,7 @@ const TeacherTable = ({
             </th>
             <th
               scope="col"
-              onClick={() =>
-                setSort({
-                  sortBy: "email",
-                  order: sort.order === "asc" ? "desc" : "asc",
-                })
-              }
+              onClick={() => handleSort("email")}
               className="cursor-pointer px-4 py-3"
             >
               <div className="flex items-center gap-2">
@@ -89,12 +95,7 @@ const TeacherTable = ({
             </th>
             <th
               scope="col"
-              onClick={() =>
-                setSort({
-                  sortBy: "subject",
-                  order: sort.order === "asc" ? "desc" : "asc",
-                })
-              }
+              onClick={() => handleSort("subject")}
               className="cursor-pointer px-4 py-3"
             >
               <div className="flex items-center gap-2">

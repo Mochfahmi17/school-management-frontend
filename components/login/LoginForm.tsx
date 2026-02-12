@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import z from "zod";
 import { useAuthStore } from "@/stores/auth";
+import LoadingCircle from "../LoadingCircle";
 
 const LoginForm = () => {
   const { user, fetchCurrentUser } = useAuthStore();
@@ -62,7 +63,7 @@ const LoginForm = () => {
   };
   return (
     <div className="w-full max-w-md p-6">
-      <div className="space-y-1 text-center mb-6">
+      <div className="mb-6 space-y-1 text-center">
         <h1 className="text-2xl font-semibold">Login</h1>
         <p className="text-sm text-gray-600">
           Enter your credentials to access the platform.
@@ -73,7 +74,7 @@ const LoginForm = () => {
           <div className="grid gap-1">
             <label
               htmlFor="email"
-              className="font-semibold text-gray-800 text-sm w-fit"
+              className="w-fit text-sm font-semibold text-gray-800"
             >
               Email
             </label>
@@ -83,7 +84,7 @@ const LoginForm = () => {
               {...register("email")}
               disabled={isPending}
               placeholder="Enter your email"
-              className="border border-gray-300 w-full disabled:opacity-50 disabled:cursor-default rounded-md shadow-sm text-sm py-2.5 text-gray-800 px-3 focus:ring-gray-800 focus:outline-gray-800 focus:outline-2 outline-0"
+              className="w-full rounded-md border border-gray-300 px-3 py-2.5 text-sm text-gray-800 shadow-sm outline-0 focus:ring-gray-800 focus:outline-2 focus:outline-gray-800 disabled:cursor-default disabled:opacity-50"
             />
             {errors.email && (
               <p className="text-sm text-red-500">{errors.email.message}</p>
@@ -92,7 +93,7 @@ const LoginForm = () => {
           <div className="grid gap-1">
             <label
               htmlFor="password"
-              className="font-semibold text-gray-800 text-sm w-fit"
+              className="w-fit text-sm font-semibold text-gray-800"
             >
               Password
             </label>
@@ -103,14 +104,14 @@ const LoginForm = () => {
                 {...register("password")}
                 disabled={isPending}
                 placeholder="Enter your password"
-                className="border border-gray-300 w-full disabled:opacity-50 disabled:cursor-default rounded-md shadow-sm text-gray-800 text-sm py-2 px-3 focus:ring-gray-800 focus:outline-gray-800 focus:outline-2 outline-0"
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-800 shadow-sm outline-0 focus:ring-gray-800 focus:outline-2 focus:outline-gray-800 disabled:cursor-default disabled:opacity-50"
               />
 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 title={showPassword ? "hide password" : "show password"}
-                className="absolute top-1/2 -translate-y-1/2 right-0 cursor-pointer p-2"
+                className="absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer p-2"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -123,9 +124,15 @@ const LoginForm = () => {
         <button
           type="submit"
           disabled={isPending}
-          className="font-semibold bg-blue-500 disabled:opacity-50 disabled:cursor-default text-center px-8 py-2.5 rounded-full flex mx-auto shadow-sm text-white hover:bg-blue-600 transition-all cursor-pointer duration-300 focus:bg-blue-600"
+          className="mx-auto flex cursor-pointer items-center gap-1 rounded-full bg-blue-500 px-8 py-2.5 text-center font-semibold text-white shadow-sm transition-all duration-300 hover:bg-blue-600 focus:bg-blue-600 disabled:cursor-default disabled:opacity-50"
         >
-          {isPending ? "Loading..." : "Login"}
+          {isPending ? (
+            <>
+              <LoadingCircle className="size-4 border-white" /> Loading...
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
     </div>

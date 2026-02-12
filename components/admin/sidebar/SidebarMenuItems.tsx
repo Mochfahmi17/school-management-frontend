@@ -29,7 +29,7 @@ const MENUS = [
   },
   {
     label: "Kelas",
-    href: "/admin/classes",
+    href: "/admin/classroom",
     icon: <FaDoorOpen className="size-6" />,
   },
   {
@@ -50,7 +50,7 @@ const SidebarMenuItems = () => {
             <li key={i}>
               <Link
                 href={menu.href}
-                className={`py-3 px-4 rounded-lg flex items-center gap-3 ${active ? "bg-indigo-700 hover:bg-indigo-600" : "hover:bg-indigo-700"}  transition-all duration-300`}
+                className={`flex items-center gap-3 rounded-lg px-4 py-3 ${active ? "bg-indigo-700 hover:bg-indigo-600" : "hover:bg-indigo-700"} transition-all duration-300`}
               >
                 {menu.icon}
                 {menu.label}
@@ -58,10 +58,10 @@ const SidebarMenuItems = () => {
             </li>
           );
         })}
-        <li className="mt-4 pt-4 border-t border-t-indigo-700">
+        <li className="mt-4 border-t border-t-indigo-700 pt-4">
           <Link
             href="/admin/settings"
-            className="py-3 px-4  rounded-lg hover:bg-indigo-700 transition-colors duration-300 flex items-center gap-3"
+            className="flex items-center gap-3 rounded-lg px-4 py-3 transition-colors duration-300 hover:bg-indigo-700"
           >
             <IoMdSettings className="size-6" />
             Pengaturan
